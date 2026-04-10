@@ -212,6 +212,63 @@
     .divider-line {
         animation: fadeInUp 0.8s ease-out 0.3s both;
     }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        main {
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            animation: slideInDown 0.8s ease-out 0.1s both;
+        }
+
+        footer {
+            padding: 1rem;
+            max-width: 100%;
+            gap: 1rem !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        main {
+            padding: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-container .w-24.h-24 {
+            width: 4rem !important;
+            height: 4rem !important;
+        }
+
+        .logo-container .w-24.h-24 span {
+            font-size: 2rem !important;
+        }
+
+        footer .primary-btn {
+            height: 3.5rem;
+            font-size: 0.95rem;
+        }
+
+        footer .secondary-btn {
+            font-size: 0.7rem;
+        }
+
+        .security-tag {
+            font-size: 0.7rem;
+        }
+
+        .h-16 {
+            animation: slideInDown 0.8s ease-out 0.1s both;
+        }
+    }
 </style>
 </head>
 <body class="bg-background font-body text-on-background selection:bg-primary-container">
