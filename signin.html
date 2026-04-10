@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In | Trust Banco</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="crypto-utils.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#474747",
+                    "surface-container-highest": "#e0e0e0",
+                    "surface-tint": "#262626",
+                    "on-surface-variant": "#525252",
+                    "error-dim": "#4e0309",
+                    "tertiary-container": "#f5f5f5",
+                    "surface-bright": "#fcfcfc",
+                    "on-tertiary-container": "#404040",
+                    "surface": "#fcfcfc",
+                    "surface-container": "#f5f5f5",
+                    "inverse-surface": "#171717",
+                    "inverse-on-surface": "#d4d4d4",
+                    "on-secondary": "#ffffff",
+                    "secondary-dim": "#737373",
+                    "secondary-container": "#e5e5e5",
+                    "primary-fixed": "#e5e5e5",
+                    "tertiary": "#525252",
+                    "surface-container-low": "#fafafa",
+                    "secondary": "#404040",
+                    "primary": "#171717",
+                    "on-primary-fixed": "#0a0a0a",
+                    "surface-dim": "#e5e5e5",
+                    "outline-variant": "#d4d4d4",
+                    "error": "#9f403d",
+                    "outline": "#737373",
+                    "secondary-fixed-dim": "#a3a3a3",
+                    "secondary-fixed": "#d4d4d4",
+                    "primary-fixed-dim": "#a3a3a3",
+                    "surface-container-high": "#ebebeb",
+                    "primary-dim": "#262626",
+                    "background": "#fcfcfc",
+                    "tertiary-fixed": "#f5f5f5",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#404040",
+                    "on-surface": "#171717",
+                    "tertiary-fixed-dim": "#d4d4d4",
+                    "on-primary-fixed-variant": "#404040",
+                    "primary-container": "#e5e5e5",
+                    "inverse-primary": "#d4d4d4",
+                    "on-tertiary-fixed": "#171717",
+                    "on-secondary-fixed": "#171717",
+                    "on-error-container": "#752121",
+                    "on-primary-container": "#171717",
+                    "tertiary-dim": "#737373",
+                    "surface-variant": "#f5f5f5",
+                    "on-secondary-container": "#262626",
+                    "error-container": "#fe8983",
+                    "on-error": "#fff7f6",
+                    "on-background": "#171717"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift {
+            background: linear-gradient(to top, rgba(245, 245, 245, 0.5), transparent);
+        }
+        .ash-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes buttonPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .login-card {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        /* CSS Properties */
+        .keypad-btn {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .keypad-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .keypad-btn:active {
+            animation: buttonPress 0.3s ease-out;
+        }
+
+        .keypad-number {
+            background-color: #fafafa;
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+            .keypad-btn {
+                font-size: 1.125rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .login-card {
+                padding: 1rem;
+            }
+            .pin-grid {
+                gap: 0.75rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Loading state */
+        .sign-in-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .sign-in-btn:disabled:hover {
+            transform: none;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<!-- Main Content: Login Canvas -->
+<main class="flex-grow flex items-center justify-center px-6 py-12 relative overflow-hidden">
+<!-- Abstract Background Elements -->
+<div class="absolute top-[-10%] right-[-5%] w-[40rem] h-[40rem] bg-surface-container rounded-full blur-[120px] opacity-40"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[35rem] h-[35rem] bg-secondary-container/20 rounded-full blur-[100px] opacity-30"></div>
+<!-- Centered Login Card -->
+<div class="relative w-full max-w-md bg-surface-container-lowest rounded-xl p-10 shadow-[0_20px_40px_rgba(0,0,0,0.04)] backdrop-blur-md border border-outline-variant/10 login-card">
+<!-- Brand Identity -->
+<div class="flex flex-col items-center text-center mb-10">
+<div class="mb-6">
+<span class="material-symbols-outlined text-primary text-5xl filled">security</span>
+</div>
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface mb-2">Trust Banco</h1>
+<p class="welcome-back-text font-headline text-xl text-on-surface-variant font-medium">Welcome back, Julian</p>
+</div>
+<!-- Passcode Entry Interface -->
+<div class="space-y-8 sm:space-y-10">
+<!-- PIN Display Dots -->
+<div class="flex justify-center gap-2 sm:gap-3">
+<div class="pin-dot w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-surface-container-highest transition-all duration-300" data-index="0"></div>
+<div class="pin-dot w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-surface-container-highest transition-all duration-300" data-index="1"></div>
+<div class="pin-dot w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-surface-container-highest transition-all duration-300" data-index="2"></div>
+<div class="pin-dot w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-surface-container-highest transition-all duration-300" data-index="3"></div>
+<div class="pin-dot w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-surface-container-highest transition-all duration-300" data-index="4"></div>
+<div class="pin-dot w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-surface-container-highest transition-all duration-300" data-index="5"></div>
+</div>
+<!-- Numeric Keypad -->
+<div class="pin-grid grid grid-cols-3 gap-3 sm:gap-6">
+<!-- 1-9 buttons -->
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="1">1</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="2">2</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="3">3</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="4">4</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="5">5</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="6">6</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="7">7</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="8">8</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="9">9</button>
+<button class="keypad-btn w-full aspect-square flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors" id="biometric-btn" type="button">
+<span class="material-symbols-outlined text-xl sm:text-2xl">fingerprint</span>
+</button>
+<button class="keypad-btn keypad-number w-full aspect-square flex items-center justify-center rounded-full text-on-surface font-headline text-xl sm:text-2xl font-semibold" data-digit="0">0</button>
+<button class="keypad-btn w-full aspect-square flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors" id="backspace-btn" type="button">
+<span class="material-symbols-outlined text-xl sm:text-2xl">backspace</span>
+</button>
+</div>
+<!-- Action Button -->
+<div class="space-y-4">
+<button class="sign-in-btn w-full py-3 sm:py-4 ash-gradient text-on-primary rounded-full font-headline font-bold text-base sm:text-lg shadow-lg hover:shadow-black/20 transition-all transform hover:-translate-y-px active:scale-95 disabled:hover:translate-y-0" id="sign-in-btn" disabled>
+                    Sign In
+                </button>
+<div class="text-center">
+<a class="text-xs sm:text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="forgot-pin.html">Forgot Passcode?</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component from DataStore -->
+<footer class="w-full py-8 flex flex-col items-center justify-center space-y-4 w-full mt-auto bg-transparent">
+<div class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-500 dark:text-neutral-500">
+        © 2024 Trust Banco. Member FDIC.
+    </div>
+<div class="flex gap-6">
+<a class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 underline-offset-4 hover:underline transition-colors" href="privacy-policy.html">Privacy Policy</a>
+<a class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 underline-offset-4 hover:underline transition-colors" href="terms-of-service.html">Terms of Service</a>
+<a class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 underline-offset-4 hover:underline transition-colors" href="support.html">Security</a>
+</div>
+</footer>
+<script>
+    // Check if user is registered
+    const userRegistered = SecureStorage.getSecure('trustBancoUser') !== null;
+    
+    // PIN Input Management
+    let pinValue = '';
+    const maxPinLength = 6;
+
+    // Get all elements
+    const digitButtons = document.querySelectorAll('[data-digit]');
+    const backspaceBtn = document.getElementById('backspace-btn');
+    const biometricBtn = document.getElementById('biometric-btn');
+    const signInBtn = document.getElementById('sign-in-btn');
+    const pinDots = document.querySelectorAll('.pin-dot');
+    const welcomeText = document.querySelector('.welcome-back-text');
+
+    // Set button text based on user status
+    function updateButtonText() {
+        if (userRegistered) {
+            signInBtn.textContent = 'Sign In';
+            const userData = SecureStorage.getSecure('trustBancoUser');
+            const firstName = userData?.fullName ? userData.fullName.split(' ')[0] : 'User';
+            welcomeText.textContent = `Welcome back, ${firstName}`;
+        } else {
+            signInBtn.textContent = 'Sign Up';
+            welcomeText.textContent = 'Let\'s get you started';
+        }
+    }
+
+    // Add click listeners to digit buttons
+    digitButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (pinValue.length < maxPinLength) {
+                pinValue += button.getAttribute('data-digit');
+                updatePinDisplay();
+                playKeySound();
+            }
+        });
+    });
+
+    // Backspace button
+    backspaceBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (pinValue.length > 0) {
+            pinValue = pinValue.slice(0, -1);
+            updatePinDisplay();
+        }
+    });
+
+    // Biometric button (placeholder)
+    biometricBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Biometric authentication would be triggered here.');
+    });
+
+    // Sign In/Sign Up button
+    signInBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (pinValue.length === maxPinLength) {
+            signInBtn.disabled = true;
+            const originalText = signInBtn.textContent;
+            signInBtn.textContent = userRegistered ? 'Signing in...' : 'Creating account...';
+            
+            // Save PIN temporarily with encryption
+            SecureStorage.setSecure('trustBancoPin', pinValue);
+            
+            // Simulate auth delay
+            setTimeout(() => {
+                if (userRegistered) {
+                    // Existing user - go to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // New user - go to signup
+                    window.location.href = 'signup.html';
+                }
+            }, 1500);
+        }
+    });
+
+    // Update PIN display dots
+    function updatePinDisplay() {
+        pinDots.forEach((dot, index) => {
+            if (index < pinValue.length) {
+                dot.classList.add('active');
+                dot.style.backgroundColor = '#1e40af'; // primary color
+                dot.style.transform = 'scale(1.2)';
+            } else {
+                dot.classList.remove('active');
+                dot.style.backgroundColor = '#e0e0e0'; // surface-container-highest
+                dot.style.transform = 'scale(1)';
+            }
+        });
+
+        // Enable/disable sign-in button
+        if (pinValue.length === maxPinLength) {
+            signInBtn.disabled = false;
+        } else {
+            signInBtn.disabled = true;
+        }
+    }
+
+    // Play subtle key press sound (optional)
+    function playKeySound() {
+        // Create a simple beep (optional, can be removed)
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 400;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+            // Audio context may be blocked, continue without sound
+        }
+    }
+
+    // Reset PIN
+    function resetPin() {
+        pinValue = '';
+        updatePinDisplay();
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (e.key >= '0' && e.key <= '9' && pinValue.length < maxPinLength) {
+            pinValue += e.key;
+            updatePinDisplay();
+            playKeySound();
+        } else if (e.key === 'Backspace') {
+            e.preventDefault();
+            if (pinValue.length > 0) {
+                pinValue = pinValue.slice(0, -1);
+                updatePinDisplay();
+            }
+        } else if (e.key === 'Enter' && pinValue.length === maxPinLength) {
+            signInBtn.click();
+        }
+    });
+
+    // Initialize
+    updateButtonText();
+    updatePinDisplay();
+</script>
+</body></html>

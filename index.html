@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trust Banco | Secure Access</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#e0f2fe",
+                        "primary-fixed-dim": "#bfdbfe",
+                        "tertiary-fixed": "#cffafe",
+                        "primary-container": "#dbeafe",
+                        "background": "#f9fcff",
+                        "secondary-fixed": "#cffafe",
+                        "secondary-dim": "#0284c7",
+                        "outline-variant": "#7dd3fc",
+                        "primary": "#1e40af",
+                        "surface-tint": "#1e40af",
+                        "on-background": "#001f3f",
+                        "secondary-fixed-dim": "#7dd3fc",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#0ea5e9",
+                        "tertiary-dim": "#0891b2",
+                        "surface-bright": "#f9fcff",
+                        "error-dim": "#4e0309",
+                        "surface-dim": "#dbeafe",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#1e3a8a",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dbeafe",
+                        "inverse-on-surface": "#bfdbfe",
+                        "surface": "#f9fcff",
+                        "on-tertiary-fixed-variant": "#0891b2",
+                        "secondary-container": "#e0f2fe",
+                        "surface-container-highest": "#dbeafe",
+                        "on-error-container": "#752121",
+                        "tertiary-fixed-dim": "#a5f3fc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#0c4a6e",
+                        "error-container": "#fe8983",
+                        "primary-dim": "#1e3a8a",
+                        "on-surface": "#001f3f",
+                        "outline": "#0284c7",
+                        "on-primary-fixed": "#001a40",
+                        "on-secondary-container": "#0c4a6e",
+                        "surface-container": "#e0e7ff",
+                        "inverse-surface": "#0c1e30",
+                        "error": "#9f403d",
+                        "tertiary": "#06b6d4",
+                        "on-surface-variant": "#0c4a6e",
+                        "inverse-primary": "#bfdbfe",
+                        "primary-fixed": "#e0e7ff",
+                        "on-primary-container": "#0c4a6e",
+                        "on-error": "#fff7f6",
+                        "on-primary-fixed-variant": "#1e3a8a",
+                        "on-tertiary-container": "#06b6d4",
+                        "surface-container-low": "#f0f9ff",
+                        "surface-container-high": "#e0e7ff",
+                        "on-tertiary-fixed": "#001f3f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 24
+    }
+    .grain-overlay {
+        background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuB4UAlbdNUrpHIs41p6kWDoshPhiz2x7tKd1gq6eUxA1R9hrmpz6q4x3JDV5MESRCQv7HtVgfnGVq6M9WitiqBXzQAgwTlP8FuQP3hXnMA9Kr2YWaLSdaiF9awsJFJC79mrfEfVszn2K0UEHVv-T9Hue6-PF9WRF3xN60P4U4OheR2lOpjVyuhbygLcwoqxlf_Bg6hNc2Y816nwdR2zxTKSZhC6fzNBm_b7l6y66_O8X0pIk6_oAqeeV2j1HqyVcfnRbwkSK0vSsoE);
+        opacity: 0.03
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(92, 94, 99, 0.3);
+        }
+        50% {
+            box-shadow: 0 0 0 10px rgba(92, 94, 99, 0);
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* Element animations */
+    main {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    footer {
+        animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .logo-container {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Enhanced button styles */
+    .primary-btn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .primary-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .primary-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .primary-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(92, 94, 99, 0.25);
+    }
+
+    .primary-btn:active {
+        transform: translateY(0);
+    }
+
+    .secondary-btn {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .secondary-btn::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: currentColor;
+        transition: width 0.3s ease;
+    }
+
+    .secondary-btn:hover::after {
+        width: 100%;
+    }
+
+    .security-tag {
+        animation: fadeInUp 1.2s ease-out 0.4s both;
+    }
+
+    .title-text {
+        animation: slideInDown 0.8s ease-out 0.1s both;
+    }
+
+    .subtitle-text {
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .divider-line {
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+</style>
+</head>
+<body class="bg-background font-body text-on-background selection:bg-primary-container">
+<!-- Splash Screen Wrapper -->
+<div class="relative min-h-screen w-full flex flex-col items-center justify-between overflow-hidden">
+<!-- Subtle Textural Background -->
+<div class="absolute inset-0 z-0 bg-gradient-to-tr from-surface-container via-surface to-surface-container-low"></div>
+<div class="absolute inset-0 z-0 grain-overlay"></div>
+<!-- Decorative Ambient Light -->
+<div class="absolute -top-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-surface-container-lowest blur-[120px] opacity-40"></div>
+<div class="absolute -bottom-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-surface-container-highest blur-[120px] opacity-30"></div>
+<!-- Top Spacer (Maintains centering) -->
+<div class="h-24"></div>
+<!-- Central Branding Cluster -->
+<main class="relative z-10 flex flex-col items-center text-center px-6">
+<!-- Logo Icon Container -->
+<div class="mb-10 relative logo-container">
+<div class="w-24 h-24 rounded-full bg-inverse-surface flex items-center justify-center shadow-2xl hover:shadow-primary/30 transition-shadow duration-300">
+<span class="material-symbols-outlined text-surface-container-lowest text-5xl" data-icon="account_balance">account_balance</span>
+</div>
+<!-- Subtle Orbiting Detail -->
+<div class="absolute -inset-4 border border-outline-variant/10 rounded-full animate-spin-slow"></div>
+</div>
+<!-- Brand Name Typography -->
+<div class="space-y-4">
+<h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-inverse-surface font-headline uppercase title-text">
+                    Trust <span class="font-light text-primary">Banco</span>
+</h1>
+<p class="text-on-surface-variant font-medium tracking-[0.2em] text-sm md:text-base uppercase opacity-80 subtitle-text">
+                    Sovereign Wealth Management
+                </p>
+</div>
+<!-- Decorative Asset Divider -->
+<div class="mt-12 w-px h-16 bg-gradient-to-b from-outline-variant/40 to-transparent divider-line"></div>
+</main>
+<!-- Footer / Interaction Area -->
+<footer class="relative z-10 w-full max-w-md px-8 pb-16 flex flex-col gap-8">
+<div class="space-y-6">
+<!-- Primary Action -->
+<a href="signin.html" class="primary-btn w-full h-16 bg-primary text-on-primary font-bold rounded-full shadow-lg flex items-center justify-center gap-3 no-underline">
+<span class="tracking-wide">Continue to Sign In</span>
+<span class="material-symbols-outlined text-xl" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<!-- Secondary Actions -->
+<div class="flex items-center justify-center gap-8">
+<button class="secondary-btn text-on-surface-variant text-xs font-bold uppercase tracking-widest">
+                        Create Account
+                    </button>
+<div class="w-1 h-1 rounded-full bg-outline-variant/40"></div>
+<button class="secondary-btn text-on-surface-variant text-xs font-bold uppercase tracking-widest">
+                        Support
+                    </button>
+</div>
+</div>
+<!-- Security Assurance Tag -->
+<div class="security-tag flex items-center justify-center gap-2 text-[10px] text-outline uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm" data-icon="encrypted">encrypted</span>
+<span>Military-grade encryption active</span>
+</div>
+</footer>
+<!-- Bottom Safe Area Decoration -->
+<div class="absolute bottom-0 w-full h-1 bg-gradient-to-r from-transparent via-outline-variant/20 to-transparent"></div>
+</div>
+<!-- Hidden mapping to prevent shell rendering based on rules -->
+<!-- Navigation shell suppressed: Transactional/Focus journey screen -->
+</body></html>

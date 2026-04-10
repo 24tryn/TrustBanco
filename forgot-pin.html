@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Recover PIN | Trust Banco</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="crypto-utils.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: 400;
+            font-style: normal;
+            display: inline-block;
+            line-height: 1;
+        }
+        .material-symbols-outlined.lg { font-size: 48px; }
+        .recovery-step {
+            display: none;
+        }
+        .recovery-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<main class="flex-grow flex items-center justify-center px-6 py-12 relative overflow-hidden">
+    <div class="absolute top-[-10%] right-[-5%] w-[40rem] h-[40rem] bg-primary-container rounded-full blur-[120px] opacity-40"></div>
+    <div class="absolute bottom-[-10%] left-[-5%] w-[35rem] h-[35rem] bg-secondary-container/20 rounded-full blur-[100px] opacity-30"></div>
+
+    <div class="relative w-full max-w-md bg-surface-container-lowest rounded-xl p-10 shadow-[0_20px_40px_rgba(0,0,0,0.04)] backdrop-blur-md border border-outline-variant/10">
+        <!-- Back Button -->
+        <a href="signin.html" class="inline-flex items-center gap-2 text-primary hover:text-primary-dim transition-colors mb-6">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Back to Sign In
+        </a>
+
+        <!-- Header -->
+        <div class="flex flex-col items-center text-center mb-10">
+            <div class="mb-4">
+                <span class="material-symbols-outlined lg text-primary">key</span>
+            </div>
+            <h1 class="font-headline text-2xl font-extrabold tracking-tight text-on-surface mb-2">Recover Your PIN</h1>
+            <p class="text-on-surface-variant text-sm">Answer your security questions to reset your PIN</p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="flex gap-2 mb-8 justify-center">
+            <div class="h-1 w-12 bg-primary rounded-full" id="progressBar1"></div>
+            <div class="h-1 w-12 bg-surface-container rounded-full" id="progressBar2"></div>
+            <div class="h-1 w-12 bg-surface-container rounded-full" id="progressBar3"></div>
+        </div>
+
+        <form id="recoveryForm">
+            <!-- Step 1: Identify Account -->
+            <div class="recovery-step active" id="step1">
+                <div class="space-y-4">
+                    <label class="block text-sm font-bold mb-2">Email Address</label>
+                    <input type="email" id="recoveryEmail" placeholder="your@email.com" class="w-full px-4 py-2 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary" required>
+                    <p class="text-xs text-on-surface-variant mt-2">Enter the email associated with your account</p>
+                </div>
+                <button type="button" onclick="nextRecoveryStep()" class="w-full mt-6 py-3 bg-primary text-on-primary rounded-full font-bold hover:bg-primary-dim transition-all">
+                    Verify Account
+                </button>
+            </div>
+
+            <!-- Step 2: Answer Security Questions -->
+            <div class="recovery-step" id="step2">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Security Question 1</label>
+                        <p class="text-primary font-semibold mb-2">What was the name of your first pet?</p>
+                        <input type="text" id="answer1" placeholder="Your answer" class="w-full px-4 py-2 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Security Question 2</label>
+                        <p class="text-primary font-semibold mb-2">What city were you born in?</p>
+                        <input type="text" id="answer2" placeholder="Your answer" class="w-full px-4 py-2 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary" required>
+                    </div>
+                </div>
+                <button type="button" onclick="nextRecoveryStep()" class="w-full mt-6 py-3 bg-primary text-on-primary rounded-full font-bold hover:bg-primary-dim transition-all">
+                    Verify Answers
+                </button>
+            </div>
+
+            <!-- Step 3: Create New PIN -->
+            <div class="recovery-step" id="step3">
+                <div class="space-y-4">
+                    <p class="text-sm text-on-surface-variant bg-primary-container/20 px-4 py-3 rounded-lg border border-primary/20">
+                        <span class="material-symbols-outlined text-sm align-middle mr-2">info</span>
+                        Your new PIN must be 6 digits
+                    </p>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">New PIN</label>
+                        <input type="password" id="newPin" maxlength="6" placeholder="••••••" class="w-full px-4 py-2 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-center tracking-widest" required>
+                        <div class="flex gap-1 mt-2 justify-center">
+                            <span class="w-3 h-3 rounded-full bg-surface-container"></span>
+                            <span class="w-3 h-3 rounded-full bg-surface-container"></span>
+                            <span class="w-3 h-3 rounded-full bg-surface-container"></span>
+                            <span class="w-3 h-3 rounded-full bg-surface-container"></span>
+                            <span class="w-3 h-3 rounded-full bg-surface-container"></span>
+                            <span class="w-3 h-3 rounded-full bg-surface-container"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Confirm PIN</label>
+                        <input type="password" id="confirmPin" maxlength="6" placeholder="••••••" class="w-full px-4 py-2 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-center tracking-widest" required>
+                    </div>
+                </div>
+                <button type="submit" class="w-full mt-6 py-3 bg-primary text-on-primary rounded-full font-bold hover:bg-primary-dim transition-all">
+                    Reset PIN
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer class="w-full py-8 flex flex-col items-center justify-center space-y-4 bg-transparent">
+    <div class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-500">
+        © 2024 Trust Banco. Member FDIC.
+    </div>
+</footer>
+
+<script>
+    let currentRecoveryStep = 1;
+
+    function nextRecoveryStep() {
+        if (validateRecoveryStep(currentRecoveryStep)) {
+            currentRecoveryStep++;
+            updateRecoverySteps();
+        }
+    }
+
+    function updateRecoverySteps() {
+        // Hide all steps
+        document.querySelectorAll('.recovery-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Show current step
+        document.getElementById('step' + currentRecoveryStep).classList.add('active');
+        
+        // Update progress bars
+        for (let i = 1; i <= 3; i++) {
+            const bar = document.getElementById('progressBar' + i);
+            if (i < currentRecoveryStep) {
+                bar.classList.remove('bg-surface-container');
+                bar.classList.add('bg-primary');
+            } else if (i === currentRecoveryStep) {
+                bar.classList.remove('bg-surface-container');
+                bar.classList.add('bg-primary');
+            } else {
+                bar.classList.remove('bg-primary');
+                bar.classList.add('bg-surface-container');
+            }
+        }
+    }
+
+    function validateRecoveryStep(step) {
+        if (step === 1) {
+            const email = document.getElementById('recoveryEmail').value;
+            if (!email) {
+                alert('Please enter your email address');
+                return false;
+            }
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address');
+                return false;
+            }
+            // In production, verify email exists in system
+            return true;
+        }
+        
+        if (step === 2) {
+            const answer1 = document.getElementById('answer1').value;
+            const answer2 = document.getElementById('answer2').value;
+            
+            if (!answer1 || !answer2) {
+                alert('Please answer both security questions');
+                return false;
+            }
+            // In production, verify answers match
+            return true;
+        }
+        
+        return true;
+    }
+
+    function isValidEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        return re.test(email);
+    }
+
+    document.getElementById('recoveryForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const newPin = document.getElementById('newPin').value;
+        const confirmPin = document.getElementById('confirmPin').value;
+        
+        if (newPin.length !== 6) {
+            alert('PIN must be exactly 6 digits');
+            return;
+        }
+        
+        if (newPin !== confirmPin) {
+            alert('PINs do not match');
+            return;
+        }
+        
+        // Save new PIN with encryption
+        SecureStorage.setSecure('trustBancoPin', newPin);
+        document.getElementById('recoveryForm').style.display = 'none';
+        
+        alert('Your PIN has been successfully reset! Redirecting to sign in...');
+        window.location.href = 'signin.html';
+    });
+</script>
+</body>
+</html>

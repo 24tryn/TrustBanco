@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trust Banco | Transfers &amp; Payments</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="crypto-utils.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e0e7ff",
+                        "surface": "#f9fcff",
+                        "surface-variant": "#dbeafe",
+                        "on-secondary-fixed": "#0c4a6e",
+                        "tertiary": "#06b6d4",
+                        "tertiary-fixed-dim": "#a5f3fc",
+                        "on-secondary-fixed-variant": "#1e3a8a",
+                        "surface-container": "#e0e7ff",
+                        "on-error": "#fff7f6",
+                        "error": "#9f403d",
+                        "primary": "#1e40af",
+                        "primary-dim": "#1e3a8a",
+                        "outline": "#0284c7",
+                        "secondary-fixed-dim": "#7dd3fc",
+                        "on-primary-fixed": "#001a40",
+                        "on-primary-container": "#0c4a6e",
+                        "on-primary-fixed-variant": "#1e3a8a",
+                        "surface-container-highest": "#dbeafe",
+                        "on-tertiary-fixed": "#001f3f",
+                        "background": "#f9fcff",
+                        "surface-tint": "#1e40af",
+                        "primary-container": "#dbeafe",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e0e7ff",
+                        "secondary-dim": "#0284c7",
+                        "surface-container-low": "#f0f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#cffafe",
+                        "tertiary-container": "#cffafe",
+                        "primary-fixed-dim": "#bfdbfe",
+                        "tertiary-dim": "#0891b2",
+                        "inverse-primary": "#bfdbfe",
+                        "on-surface": "#001f3f",
+                        "on-error-container": "#752121",
+                        "outline-variant": "#7dd3fc",
+                        "secondary-fixed": "#cffafe",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#0c4a6e",
+                        "on-tertiary-container": "#06b6d4",
+                        "error-container": "#fe8983",
+                        "error-dim": "#4e0309",
+                        "on-background": "#001f3f",
+                        "inverse-surface": "#0c1e30",
+                        "surface-dim": "#dbeafe",
+                        "on-tertiary-fixed-variant": "#0891b2",
+                        "on-surface-variant": "#0c4a6e",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#0ea5e9",
+                        "surface-bright": "#f9fcff",
+                        "inverse-on-surface": "#bfdbfe",
+                        "secondary-container": "#e0f2fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        .bg-pattern {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="2" cy="2" r="1" fill="white"/></svg>');
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-neutral-50 dark:bg-neutral-900 flex flex-col p-6 space-y-8 font-manrope text-sm tracking-wide antialiased">
+<div class="mb-4">
+<div class="text-lg font-black tracking-widest uppercase text-neutral-900 dark:text-neutral-100">Trust Banco</div>
+<div class="text-[10px] uppercase tracking-[0.2em] opacity-50 mt-1">Private Wealth Management</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 px-4 py-3 rounded-lg flex items-center gap-3 transition-transform duration-200 hover:translate-x-1 cursor-pointer" href="dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-white rounded-lg font-semibold px-4 py-3 flex items-center gap-3 cursor-pointer" href="#">
+<span class="material-symbols-outlined">swap_horiz</span>
+                Transfers
+            </a>
+<a class="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 px-4 py-3 rounded-lg flex items-center gap-3 transition-transform duration-200 hover:translate-x-1 cursor-pointer" href="#">
+<span class="material-symbols-outlined">payments</span>
+                Payments
+            </a>
+<a class="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 px-4 py-3 rounded-lg flex items-center gap-3 transition-transform duration-200 hover:translate-x-1 cursor-pointer" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-4 bg-primary text-on-primary rounded-lg font-bold shadow-lg hover:bg-primary-dim transition-all active:scale-98 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">contact_support</span>
+                Contact Advisor
+            </button>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-20 z-40 bg-neutral-50/70 dark:bg-neutral-900/70 backdrop-blur-md flex items-center justify-between px-10 w-full font-manrope tracking-tight">
+<div class="flex items-center flex-1">
+<div class="relative w-96 group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full bg-neutral-100/50 dark:bg-neutral-800/50 border-none rounded-full py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-outline-variant transition-all" placeholder="Search transactions, accounts..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-neutral-700 dark:text-neutral-300">
+<div class="hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<div class="hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">help_outline</span>
+</div>
+</div>
+<div class="h-10 w-10 rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden border border-white shadow-sm">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZDwRQJe4YOhgBERyBATxKt7h3gni5I-qgyGGurDlsGhXJANuDQfKTuBy14ztobeCBKNtXZx6a6sfB3aQBIB9U06ZIgkZkNgtNYlG1-CZj2EUcdH68HO93tsadDPW4_vBV7TeCqIZaHrpVo2MITX3Vrr7sBLjJiVbhyLB8hAAVxOZN6h_vFWN4PQNj7Yzk2fimJiB1OtSKTKxOAazj21XnqsbjsNklYy_jqGigcrZGEglKjETjuqXex-2U0pT7V62T1Wd3TqPWBEM"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-20 min-h-screen pb-12">
+<div class="max-w-6xl mx-auto p-12">
+<!-- Page Header -->
+<div class="mb-12">
+<h1 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface mb-2">Transfers &amp; Payments</h1>
+<p class="text-on-surface-variant font-body text-sm">Move capital across your vault and external accounts securely.</p>
+</div>
+<!-- Bento Layout Content -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Main Transaction Form Card -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-[2rem] p-10 shadow-[0_20px_40px_rgba(0,0,0,0.03)] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-10">
+<div class="h-12 w-12 bg-neutral-100 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary font-bold">send</span>
+</div>
+<h2 class="text-xl font-headline font-bold">New Transfer</h2>
+</div>
+<form class="space-y-8" id="transferForm">
+<!-- Recipient Input -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Recipient Account</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 pl-4 pr-12 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant font-medium" placeholder="Search by name, IBAN or account number" type="text" id="recipientInput"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">contacts</span>
+</div>
+</div>
+<!-- Amount & Frequency Grid -->
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Amount ($)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold">$</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 pl-8 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all font-headline font-bold text-lg" placeholder="0.00" type="number" id="amountInput"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Currency</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none" title="Select currency" aria-label="Currency selection">
+<option>USD - US Dollar</option>
+<option>EUR - Euro</option>
+<option>GBP - British Pound</option>
+</select>
+</div>
+</div>
+<!-- Notes Input -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Payment Reference / Notes</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant resize-none" placeholder="Description for your bank statement..." rows="3" id="notesInput"></textarea>
+</div>
+<!-- CTA -->
+<button class="w-full py-5 bg-primary text-on-primary rounded-full font-bold text-lg shadow-xl shadow-black/10 hover:-translate-y-1 transition-all active:scale-95" type="button" id="sendMoneyBtn">
+                                Send Money
+                            </button>
+</form>
+</div>
+</div>
+<!-- Secondary Column: Information & History -->
+<div class="col-span-12 lg:col-span-5 space-y-8">
+<!-- Quick Limits Card -->
+<div class="bg-primary text-on-primary rounded-[2rem] p-8 shadow-lg overflow-hidden relative">
+<!-- Decorative Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-pattern"></div>
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] mb-6 opacity-70">Daily Transfer Limits</h3>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-3xl font-headline font-extrabold">$25,000.00</span>
+<span class="text-sm opacity-60">remaining today</span>
+</div>
+<div class="w-full h-2 bg-white/20 rounded-full mt-4 overflow-hidden">
+<div class="h-full bg-white rounded-full w-3/4"></div>
+</div>
+<div class="flex justify-between mt-4 text-xs font-medium opacity-60">
+<span>$75,000 Total Limit</span>
+<span class="cursor-pointer hover:underline">Request Increase</span>
+</div>
+</div>
+<!-- Recent Recipients -->
+<div class="bg-surface-container rounded-[2rem] p-8">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-6">Recent Recipients</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-2xl hover:bg-white transition-all cursor-pointer group recipient-card" data-name="Arthur J. Sterling">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-neutral-200 flex items-center justify-center text-neutral-600 font-bold text-xs">AJ</div>
+<div>
+<div class="text-sm font-bold">Arthur J. Sterling</div>
+<div class="text-[10px] text-outline">CH-92 0003 4812 21</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-sm group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-2xl hover:bg-white transition-all cursor-pointer group recipient-card" data-name="Global Logistics Inc.">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-neutral-200 flex items-center justify-center text-neutral-600 font-bold text-xs">GL</div>
+<div>
+<div class="text-sm font-bold">Global Logistics Inc.</div>
+<div class="text-[10px] text-outline">US-41 1120 9004 00</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-sm group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-2xl hover:bg-white transition-all cursor-pointer group recipient-card" data-name="Morgan &amp; Sons">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-neutral-200 flex items-center justify-center text-neutral-600 font-bold text-xs">MS</div>
+<div>
+<div class="text-sm font-bold">Morgan &amp; Sons</div>
+<div class="text-[10px] text-outline">GB-12 5592 1003 82</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-sm group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Security Badge -->
+<div class="bg-surface-container-high rounded-3xl p-6 flex items-start gap-4">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<div>
+<div class="text-sm font-bold">Bank-Grade Encryption</div>
+<p class="text-xs text-on-surface-variant leading-relaxed mt-1">All transfers are secured with 256-bit encryption and monitored for fraud protection.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Confirmation Modal Overlay -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center modal" id="confirmationModal">
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+<div class="relative bg-surface-container-lowest w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+<div class="text-center">
+<div class="h-20 w-20 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-4xl filled">check_circle</span>
+</div>
+<h3 class="text-2xl font-headline font-extrabold mb-2 text-on-surface">Confirm Transfer</h3>
+<p class="text-on-surface-variant text-sm mb-8 px-4">Please review the details of your transaction below before final approval.</p>
+</div>
+<div class="space-y-4 mb-10 bg-surface-container-low rounded-3xl p-6">
+<div class="flex justify-between items-center py-2">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Recipient</span>
+<span class="text-sm font-bold text-on-surface" id="confirmRecipient">Arthur J. Sterling</span>
+</div>
+<div class="h-px bg-outline-variant/10"></div>
+<div class="flex justify-between items-center py-2">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Amount</span>
+<span class="text-lg font-headline font-extrabold text-primary" id="confirmAmount">$12,500.00</span>
+</div>
+<div class="h-px bg-outline-variant/10"></div>
+<div class="flex justify-between items-center py-2">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Fee</span>
+<span class="text-sm font-medium text-on-surface">$0.00</span>
+</div>
+<div class="h-px bg-outline-variant/10"></div>
+<div class="flex justify-between items-center py-2">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Arrival</span>
+<span class="text-sm font-medium text-on-surface">Instant</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<button class="w-full py-5 bg-primary text-on-primary rounded-full font-bold shadow-lg hover:bg-primary-dim transition-all" id="approveBtn">
+                    Approve Transaction
+                </button>
+<button class="w-full py-4 bg-transparent text-outline font-semibold hover:text-on-surface transition-all" id="cancelBtn">
+                    Go Back &amp; Edit
+                </button>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="w-full py-8 flex flex-col items-center justify-center space-y-4 mt-auto bg-surface">
+<div class="flex items-center gap-6 text-neutral-400 font-manrope text-[10px] uppercase tracking-[0.1em]">
+<a class="hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors" href="#">Security</a>
+</div>
+<p class="text-neutral-500 dark:text-neutral-500 font-manrope text-[10px] uppercase tracking-[0.1em]">© 2024 Trust Banco. Member FDIC.</p>
+</footer>
+
+<script>
+    const transferForm = document.getElementById('transferForm');
+    const sendMoneyBtn = document.getElementById('sendMoneyBtn');
+    const confirmationModal = document.getElementById('confirmationModal');
+    const approveBtn = document.getElementById('approveBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const recipientInput = document.getElementById('recipientInput');
+    const amountInput = document.getElementById('amountInput');
+    const notesInput = document.getElementById('notesInput');
+    const recipientCards = document.querySelectorAll('.recipient-card');
+
+    // Error notification function
+    function showError(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'fixed top-4 right-4 bg-error text-on-primary px-6 py-3 rounded-lg shadow-lg max-w-sm animate-pulse';
+        errorDiv.textContent = message;
+        document.body.appendChild(errorDiv);
+        
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
+    }
+
+    function showSuccess(message) {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'fixed top-4 right-4 bg-primary text-on-primary px-6 py-3 rounded-lg shadow-lg max-w-sm';
+        successDiv.textContent = message;
+        document.body.appendChild(successDiv);
+        
+        setTimeout(() => {
+            successDiv.remove();
+        }, 4000);
+    }
+
+    // Validate recipient
+    function isValidRecipient(recipient) {
+        return recipient.trim().length >= 3;
+    }
+
+    // Validate amount
+    function isValidAmount(amount) {
+        const num = parseFloat(amount);
+        return num > 0 && num <= 999999.99 && amount.length <= 10;
+    }
+
+    // Click recent recipient to populate form
+    recipientCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const name = card.getAttribute('data-name');
+            recipientInput.value = name;
+            recipientInput.focus();
+        });
+    });
+
+    // Real-time validation
+    amountInput.addEventListener('input', () => {
+        if (amountInput.value && !isValidAmount(amountInput.value)) {
+            amountInput.style.borderColor = '#9f403d';
+        } else {
+            amountInput.style.borderColor = '';
+        }
+    });
+
+    // Send Money button - show confirmation modal
+    sendMoneyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Validate inputs
+        if (!recipientInput.value.trim()) {
+            showError('Please enter a recipient name');
+            return;
+        }
+        
+        if (!isValidRecipient(recipientInput.value)) {
+            showError('Recipient name must be at least 3 characters');
+            return;
+        }
+        
+        if (!amountInput.value) {
+            showError('Please enter a transfer amount');
+            return;
+        }
+        
+        if (!isValidAmount(amountInput.value)) {
+            showError('Please enter a valid amount (up to $999,999.99)');
+            return;
+        }
+
+        // Update modal with form data
+        document.getElementById('confirmRecipient').textContent = recipientInput.value;
+        document.getElementById('confirmAmount').textContent = '$' + parseFloat(amountInput.value).toFixed(2);
+
+        // Show modal
+        confirmationModal.classList.remove('hidden');
+    });
+
+    // Cancel button - hide modal and go back
+    cancelBtn.addEventListener('click', () => {
+        confirmationModal.classList.add('hidden');
+    });
+
+    // Approve button - process transfer
+    approveBtn.addEventListener('click', () => {
+        approveBtn.disabled = true;
+        approveBtn.textContent = 'Processing...';
+
+        setTimeout(() => {
+            try {
+                const transferAmount = parseFloat(amountInput.value);
+                
+                // Get user data and deduct balance
+                const userData = SecureStorage.getSecure('trustBancoUser');
+                const currentBalance = userData?.balance || 12450.00;
+                
+                if (transferAmount > currentBalance) {
+                    showError('Insufficient balance for this transfer');
+                    approveBtn.disabled = false;
+                    approveBtn.textContent = 'Approve Transaction';
+                    return;
+                }
+                
+                const newBalance = currentBalance - transferAmount;
+                
+                // Update user balance
+                const updatedUserData = {
+                    ...userData,
+                    balance: newBalance
+                };
+                SecureStorage.setSecure('trustBancoUser', updatedUserData);
+                
+                // Save transfer to secure storage
+                const transfers = SecureStorage.getSecure('trustBancoTransfers') || [];
+                transfers.push({
+                    recipient: recipientInput.value,
+                    amount: transferAmount,
+                    notes: notesInput.value,
+                    timestamp: new Date().toISOString(),
+                    status: 'completed',
+                    type: 'transfer'
+                });
+                SecureStorage.setSecure('trustBancoTransfers', transfers);
+
+                // Show success
+                showSuccess(`Transfer of $${transferAmount.toFixed(2)} to ${recipientInput.value} completed! New balance: $${newBalance.toFixed(2)}`);
+
+                // Reset form
+                transferForm.reset();
+                confirmationModal.classList.add('hidden');
+                approveBtn.disabled = false;
+                approveBtn.textContent = 'Approve Transaction';
+            } catch (err) {
+                showError('An error occurred processing the transfer. Please try again.');
+                approveBtn.disabled = false;
+                approveBtn.textContent = 'Approve Transaction';
+            }
+        }, 1500);
+    });
+
+    // Close modal when clicking outside
+    confirmationModal.addEventListener('click', (e) => {
+        if (e.target === confirmationModal) {
+            confirmationModal.classList.add('hidden');
+        }
+    });
+</script>
+</body></html>

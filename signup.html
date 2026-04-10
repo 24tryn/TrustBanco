@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Account | Trust Banco</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="crypto-utils.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#474747",
+                    "surface-container-highest": "#e0e0e0",
+                    "surface-tint": "#262626",
+                    "on-surface-variant": "#525252",
+                    "error-dim": "#4e0309",
+                    "tertiary-container": "#f5f5f5",
+                    "surface-bright": "#fcfcfc",
+                    "on-tertiary-container": "#404040",
+                    "surface": "#fcfcfc",
+                    "surface-container": "#f5f5f5",
+                    "inverse-surface": "#171717",
+                    "inverse-on-surface": "#d4d4d4",
+                    "on-secondary": "#ffffff",
+                    "secondary-dim": "#737373",
+                    "secondary-container": "#e5e5e5",
+                    "primary-fixed": "#e5e5e5",
+                    "tertiary": "#525252",
+                    "surface-container-low": "#fafafa",
+                    "secondary": "#404040",
+                    "primary": "#171717",
+                    "on-primary-fixed": "#0a0a0a",
+                    "surface-dim": "#e5e5e5",
+                    "outline-variant": "#d4d4d4",
+                    "error": "#9f403d",
+                    "outline": "#737373",
+                    "secondary-fixed-dim": "#a3a3a3",
+                    "secondary-fixed": "#d4d4d4",
+                    "primary-fixed-dim": "#a3a3a3",
+                    "surface-container-high": "#ebebeb",
+                    "primary-dim": "#262626",
+                    "background": "#fcfcfc",
+                    "tertiary-fixed": "#f5f5f5",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#404040",
+                    "on-surface": "#171717",
+                    "tertiary-fixed-dim": "#d4d4d4",
+                    "on-primary-fixed-variant": "#404040",
+                    "primary-container": "#e5e5e5",
+                    "inverse-primary": "#d4d4d4",
+                    "on-tertiary-fixed": "#171717",
+                    "on-secondary-fixed": "#171717",
+                    "on-error-container": "#752121",
+                    "on-primary-container": "#171717",
+                    "tertiary-dim": "#737373",
+                    "surface-variant": "#f5f5f5",
+                    "on-secondary-container": "#262626",
+                    "error-container": "#fe8983",
+                    "on-error": "#fff7f6",
+                    "on-background": "#171717"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e5e5;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: #fcfcfc;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        #prevBtn, #submitBtn {
+            display: none;
+        }
+
+        #prevBtn.show {
+            display: block;
+        }
+
+        #submitBtn.show {
+            display: block;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e5e5;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: #fcfcfc;
+        }
+
+        .input-group input::placeholder {
+            color: #a3a3a3;
+        }
+
+        .input-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e5e5;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background-color: #fcfcfc;
+            transition: all 0.3s ease;
+        }
+
+        .input-group select:focus {
+            border-color: #171717;
+            box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.1);
+            outline: none;
+        }
+
+        .input-group input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .input-group input[type="checkbox"]:focus {
+            outline: 2px solid #171717;
+            outline-offset: 2px;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signup-card {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .form-step {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .signup-card {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .signup-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            background: linear-gradient(90deg, #171717 0%, #262626 100%);
+            transition: width 0.3s ease;
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: #e5e5e5;
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background-color: #171717;
+            transform: scale(1.3);
+        }
+
+        .step-dot.completed {
+            background-color: #171717;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #9f403d;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .input-group.error input,
+        .input-group.error textarea {
+            border-color: #9f403d;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center px-6 py-12 relative overflow-hidden">
+<!-- Abstract Background Elements -->
+<div class="absolute top-[-10%] right-[-5%] w-[40rem] h-[40rem] bg-surface-container rounded-full blur-[120px] opacity-40"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[35rem] h-[35rem] bg-secondary-container/20 rounded-full blur-[100px] opacity-30"></div>
+
+<!-- Signup Card -->
+<div class="relative w-full max-w-lg bg-surface-container-lowest rounded-xl p-10 shadow-[0_20px_40px_rgba(0,0,0,0.04)] backdrop-blur-md border border-outline-variant/10 signup-card">
+<!-- Header -->
+<div class="flex flex-col items-center text-center mb-8">
+<div class="mb-4">
+<span class="material-symbols-outlined text-4xl md:text-5xl filled text-primary">person_add</span>
+</div>
+<h1 class="font-headline text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface mb-2">Create Account</h1>
+<p class="text-sm md:text-base text-on-surface-variant font-medium">Join Trust Banco and manage your wealth securely</p>
+</div>
+
+<!-- Progress Indicator -->
+<div class="step-indicator mb-6">
+<div class="step-dot active" data-step="1"></div>
+<div class="step-dot" data-step="2"></div>
+<div class="step-dot" data-step="3"></div>
+</div>
+
+<!-- Form Container -->
+<form id="signupForm" class="space-y-6">
+<!-- Step 1: Personal Information -->
+<div class="form-step active" data-step="1">
+<h2 class="font-headline text-lg font-bold mb-4 text-on-surface">Personal Information</h2>
+
+<div class="space-y-4">
+<div class="input-group">
+<label for="fullName">Full Name</label>
+<input type="text" id="fullName" placeholder="Julian Morales" required>
+<span class="error-message" id="fullNameError">Please enter your full name</span>
+</div>
+
+<div class="input-group">
+<label for="email">Email Address</label>
+<input type="email" id="email" placeholder="julian@example.com" required>
+<span class="error-message" id="emailError">Please enter a valid email</span>
+</div>
+
+<div class="input-group">
+<label for="phone">Phone Number</label>
+<input type="tel" id="phone" placeholder="+1 (555) 123-4567" required>
+<span class="error-message" id="phoneError">Please enter a valid phone number</span>
+</div>
+
+<div class="input-group">
+<label for="dob">Date of Birth</label>
+<input type="date" id="dob" required>
+<span class="error-message" id="dobError">You must be at least 18 years old</span>
+</div>
+</div>
+</div>
+
+<!-- Step 2: Address Information -->
+<div class="form-step" data-step="2">
+<h2 class="font-headline text-lg font-bold mb-4 text-on-surface">Address Information</h2>
+
+<div class="space-y-4">
+<div class="input-group">
+<label for="address">Street Address</label>
+<input type="text" id="address" placeholder="123 Main Street" required>
+<span class="error-message" id="addressError">Please enter your address</span>
+</div>
+
+<div class="grid grid-cols-2 gap-4">
+<div class="input-group">
+<label for="city">City</label>
+<input type="text" id="city" placeholder="New York" required>
+<span class="error-message" id="cityError">Please enter your city</span>
+</div>
+
+<div class="input-group">
+<label for="state">State/Province</label>
+<input type="text" id="state" placeholder="NY" required>
+<span class="error-message" id="stateError">Please enter your state</span>
+</div>
+</div>
+
+<div class="grid grid-cols-2 gap-4">
+<div class="input-group">
+<label for="zipcode">Zip Code</label>
+<input type="text" id="zipcode" placeholder="10001" required>
+<span class="error-message" id="zipcodeError">Please enter your zip code</span>
+</div>
+
+<div class="input-group">
+<label for="country">Country</label>
+<input type="text" id="country" placeholder="United States" required>
+<span class="error-message" id="countryError">Please enter your country</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Step 3: Security Setup -->
+<div class="form-step" data-step="3">
+<h2 class="font-headline text-lg font-bold mb-4 text-on-surface">Security Setup</h2>
+
+<div class="space-y-4">
+<div class="input-group">
+<label for="securityQuestion">Security Question</label>
+<select id="securityQuestion" required>
+<option value="">Select a question</option>
+<option value="pet">What was the name of your first pet?</option>
+<option value="city">What city were you born in?</option>
+<option value="school">What was your elementary school name?</option>
+<option value="teacher">Who was your first teacher?</option>
+</select>
+<span class="error-message" id="securityQuestionError">Please select a security question</span>
+</div>
+
+<div class="input-group">
+<label for="securityAnswer">Your Answer</label>
+<input type="text" id="securityAnswer" placeholder="Your answer" required>
+<span class="error-message" id="securityAnswerError">Please provide your answer</span>
+</div>
+
+<div class="input-group">
+<label for="terms" class="flex items-start gap-2 cursor-pointer">
+<input type="checkbox" id="terms" class="mt-1" required>
+<span>I agree to the <a href="terms-of-service.html" class="text-primary hover:underline">Terms of Service</a> and <a href="privacy-policy.html" class="text-primary hover:underline">Privacy Policy</a></span>
+</label>
+<span class="error-message" id="termsError">You must accept the terms to continue</span>
+</div>
+</div>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="flex gap-4 mt-8">
+<button type="button" id="prevBtn" class="flex-1 py-3 px-4 border-2 border-on-surface rounded-full font-headline font-bold text-on-surface hover:bg-surface-container transition-all">
+                    Previous
+                </button>
+<button type="button" id="nextBtn" class="flex-1 py-3 px-4 ash-gradient text-on-primary rounded-full font-headline font-bold shadow-lg hover:shadow-black/20 transition-all transform hover:-translate-y-px active:scale-95">
+                    Next
+                </button>
+<button type="submit" id="submitBtn" class="flex-1 py-3 px-4 ash-gradient text-on-primary rounded-full font-headline font-bold shadow-lg hover:shadow-black/20 transition-all transform hover:-translate-y-px active:scale-95">
+                    Complete Setup
+                </button>
+</div>
+</form>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-8 flex flex-col items-center justify-center space-y-4 mt-auto bg-transparent">
+<div class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-500">
+        © 2024 Trust Banco. Member FDIC.
+    </div>
+<div class="flex gap-6">
+<a class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-400 hover:text-neutral-700 underline-offset-4 hover:underline transition-colors" href="privacy-policy.html">Privacy Policy</a>
+<a class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-400 hover:text-neutral-700 underline-offset-4 hover:underline transition-colors" href="terms-of-service.html">Terms of Service</a>
+<a class="font-manrope text-[10px] uppercase tracking-[0.1em] text-neutral-400 hover:text-neutral-700 underline-offset-4 hover:underline transition-colors" href="support.html">Support</a>
+</div>
+</footer>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 3;
+    const form = document.getElementById('signupForm');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Form fields for validation
+    const formFields = {
+        1: ['fullName', 'email', 'phone', 'dob'],
+        2: ['address', 'city', 'state', 'zipcode', 'country'],
+        3: ['securityQuestion', 'securityAnswer', 'terms']
+    };
+
+    // Show/hide steps
+    function updateSteps() {
+        document.querySelectorAll('.form-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+
+        // Update progress indicators
+        document.querySelectorAll('.step-dot').forEach((dot, index) => {
+            const stepNum = index + 1;
+            if (stepNum < currentStep) {
+                dot.classList.add('completed');
+                dot.classList.remove('active');
+            } else if (stepNum === currentStep) {
+                dot.classList.add('active');
+                dot.classList.remove('completed');
+            } else {
+                dot.classList.remove('active', 'completed');
+            }
+        });
+
+        // Update buttons
+        prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+        nextBtn.style.display = currentStep === totalSteps ? 'none' : 'block';
+        submitBtn.style.display = currentStep === totalSteps ? 'block' : 'none';
+    }
+
+    // Validate current step
+    function validateStep(step) {
+        let isValid = true;
+        const fields = formFields[step];
+
+        fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + 'Error');
+            const inputGroup = field.closest('.input-group');
+
+            if (!field.value.trim() || (field.type === 'checkbox' && !field.checked)) {
+                isValid = false;
+                inputGroup.classList.add('error');
+                if (errorElement) errorElement.classList.add('show');
+            } else {
+                inputGroup.classList.remove('error');
+                if (errorElement) errorElement.classList.remove('show');
+            }
+
+            // Specific validations
+            if (fieldId === 'email') {
+                if (!isValidEmail(field.value)) {
+                    isValid = false;
+                    displayError(fieldId, 'Please enter a valid email address');
+                } else if (isEmailExists(field.value)) {
+                    isValid = false;
+                    displayError(fieldId, 'This email is already registered');
+                }
+            }
+
+            if (fieldId === 'phone' && !isValidPhone(field.value)) {
+                isValid = false;
+                displayError(fieldId, 'Please enter a valid phone number');
+            }
+
+            if (fieldId === 'fullName' && !isValidName(field.value)) {
+                isValid = false;
+                displayError(fieldId, 'Please enter your full name (first and last name)');
+            }
+
+            if (fieldId === 'dob' && !isOldEnough(field.value)) {
+                isValid = false;
+                displayError(fieldId, 'You must be at least 18 years old');
+            }
+
+            if (fieldId === 'zipcode' && field.value.trim() && !isValidZipcode(field.value)) {
+                isValid = false;
+                displayError(fieldId, 'Please enter a valid ZIP code');
+            }
+
+            if (fieldId === 'securityAnswer' && field.value.trim().length < 3) {
+                isValid = false;
+                displayError(fieldId, 'Answer must be at least 3 characters');
+            }
+        });
+
+        return isValid;
+    }
+
+    function displayError(fieldId, message) {
+        const errorElement = document.getElementById(fieldId + 'Error');
+        const field = document.getElementById(fieldId);
+        const inputGroup = field.closest('.input-group');
+        
+        inputGroup.classList.add('error');
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+    }
+
+    function isValidEmail(email) {
+        // RFC 5322 simplified email validation
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        return re.test(email) && email.length <= 254;
+    }
+
+    function isEmailExists(email) {
+        // Simulate checking if email exists (in production, query backend)
+        const existingUsers = ['julian@example.com', 'test@test.com'];
+        return existingUsers.includes(email.toLowerCase());
+    }
+
+    function isValidPhone(phone) {
+        // Accept US phone formats: (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890
+        const re = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+        return re.test(phone.replace(/\s/g, ''));
+    }
+
+    function isValidName(name) {
+        // Must contain at least 2 words (first and last name)
+        const parts = name.trim().split(/\s+/);
+        return parts.length >= 2 && parts.every(part => part.length >= 2);
+    }
+
+    function isValidZipcode(zipcode) {
+        // US ZIP code format: 5 digits or ZIP+4
+        const re = /^\d{5}(-\d{4})?$/;
+        return re.test(zipcode);
+    }
+
+    function isOldEnough(dateString) {
+        const birthDate = new Date(dateString);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            return age - 1 >= 18;
+        }
+        return age >= 18;
+    }
+
+    // Next button
+    nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (validateStep(currentStep)) {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateSteps();
+            }
+        }
+    });
+
+    // Previous button
+    prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentStep > 1) {
+            currentStep--;
+            updateSteps();
+        }
+    });
+
+    // Submit form
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (validateStep(currentStep)) {
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                dob: document.getElementById('dob').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                zipcode: document.getElementById('zipcode').value,
+                country: document.getElementById('country').value,
+                securityQuestion: document.getElementById('securityQuestion').value,
+                securityAnswer: document.getElementById('securityAnswer').value
+            };
+
+            // Save user as registered with encryption
+            const pinData = SecureStorage.getSecure('trustBancoPin');
+            SecureStorage.setSecure('trustBancoUser', {
+                ...formData,
+                registered: true,
+                pin: pinData // Save encrypted PIN from signin
+            });
+
+            // Show success message
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Account Created!';
+
+            setTimeout(() => {
+                alert('Account created successfully! Redirecting to dashboard...');
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        }
+    });
+
+    // Initialize
+    updateSteps();
+</script>
+</body></html>
