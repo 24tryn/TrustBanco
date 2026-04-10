@@ -248,6 +248,14 @@
         .input-group.error textarea {
             border-color: #9f403d;
         }
+
+        .ash-gradient {
+            background: linear-gradient(135deg, #171717 0%, #404040 100%);
+        }
+
+        .ash-gradient:hover {
+            background: linear-gradient(135deg, #262626 0%, #525252 100%);
+        }
     </style>
 </head>
 <body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
@@ -431,6 +439,14 @@
             step.classList.remove('active');
         });
         document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+
+        // Clear all error messages and error styling when changing steps
+        document.querySelectorAll('.error-message').forEach(msg => {
+            msg.classList.remove('show');
+        });
+        document.querySelectorAll('.input-group').forEach(group => {
+            group.classList.remove('error');
+        });
 
         // Update progress indicators
         document.querySelectorAll('.step-dot').forEach((dot, index) => {
